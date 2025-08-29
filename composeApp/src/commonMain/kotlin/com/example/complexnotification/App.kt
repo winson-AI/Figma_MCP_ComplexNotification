@@ -8,13 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -25,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import complexnotification.composeapp.generated.resources.Res
 import complexnotification.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -40,18 +41,18 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
 	MaterialTheme {
-		NotificationsScreen()
+		NotificationScreen()
 	}
 }
 
 @Composable
-private fun NotificationsScreen() {
+private fun NotificationScreen() {
 	Box(
 		modifier = Modifier
 			.fillMaxSize()
 			.background(Color(0xFFF5CB58))
 	) {
-		// Header (time + status icons placeholder)
+		// Header with time and status icons
 		Row(
 			modifier = Modifier
 				.fillMaxWidth()
@@ -66,9 +67,9 @@ private fun NotificationsScreen() {
 				color = Color(0xFF391713)
 			)
 			Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-				StatusDot()
-				StatusDot(width = 15.dp, height = 8.dp)
-				StatusDot(width = 17.dp, height = 9.dp)
+				StatusIcon()
+				StatusIcon(width = 15.dp, height = 8.dp)
+				StatusIcon(width = 17.dp, height = 9.dp)
 			}
 		}
 
@@ -81,15 +82,15 @@ private fun NotificationsScreen() {
 			// Top action icons and search
 			Row(
 				modifier = Modifier.fillMaxWidth(),
-				horizontalArrangement = Arrangement.SpaceBetween,
+				horizontalArrangement = Arrangement.End,
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-					SquareIconPlaceholder()
-					SquareIconPlaceholder()
-					SquareIconPlaceholder()
+					CartIcon()
+					NotificationIcon()
+					UserIcon()
 				}
-				SearchFieldPlaceholder()
+				SearchField()
 			}
 
 			Spacer(Modifier.height(12.dp))
@@ -124,7 +125,7 @@ private fun NotificationsScreen() {
 				Text(
 					text = "View All",
 					fontSize = 12.sp,
-					fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+					fontStyle = FontStyle.Italic,
 					fontWeight = FontWeight.SemiBold,
 					color = Color(0xFFE95322)
 				)
@@ -132,13 +133,14 @@ private fun NotificationsScreen() {
 
 			Spacer(Modifier.height(8.dp))
 			Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-				BestSellerImage(Res.drawable.best_seller_1)
-				BestSellerImage(Res.drawable.best_seller_2)
-				BestSellerImage(Res.drawable.best_seller_3)
-				BestSellerImage(Res.drawable.best_seller_4)
+				BestSellerItem(Res.drawable.food_fish)
+				BestSellerItem(Res.drawable.food_chicken)
+				BestSellerItem(Res.drawable.food_lasagna)
+				BestSellerItem(Res.drawable.food_dessert)
 			}
 
 			Spacer(Modifier.height(16.dp))
+			PromoCard(Res.drawable.food_pizza)
 			DividerLine()
 
 			Spacer(Modifier.height(16.dp))
@@ -151,15 +153,14 @@ private fun NotificationsScreen() {
 
 			Spacer(Modifier.height(12.dp))
 			Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-				RecommendCardImage(Res.drawable.recommend_card_left)
-				RecommendCardImage(Res.drawable.recommend_card_right)
+				RecommendCard(Res.drawable.food_burger)
+				RecommendCard(Res.drawable.food_roll)
 			}
 
 			Spacer(Modifier.height(16.dp))
-			PromoCardWithImage(Res.drawable.promo_pizza)
 		}
 
-		// Bottom navigation placeholder bar
+		// Bottom navigation
 		Box(
 			modifier = Modifier
 				.align(Alignment.BottomCenter)
@@ -175,25 +176,26 @@ private fun NotificationsScreen() {
 				horizontalArrangement = Arrangement.SpaceBetween,
 				verticalAlignment = Alignment.CenterVertically
 			) {
-				FooterDot()
-				FooterDot()
-				FooterDot()
-				FooterDot()
+				BottomNavIcon(Res.drawable.ic_nav_home)
+				BottomNavIcon(Res.drawable.ic_nav_user)
+				BottomNavIcon(Res.drawable.ic_nav_heart)
+				BottomNavIcon(Res.drawable.ic_nav_settings)
+				BottomNavIcon(Res.drawable.ic_nav_cart)
 			}
 		}
 
-		// Overlay: Component 53 - Notifications (most important)
-		NotificationsComponent53(
+		// Notification panel positioned on the right side
+		NotificationPanel(
 			modifier = Modifier
-				.align(Alignment.TopStart)
-				.padding(top = 64.dp) // positions under status/search area
-				.padding(start = 66.dp)
+				.align(Alignment.TopEnd)
+				.width(330.dp)
+				.fillMaxHeight()
 		)
 	}
 }
 
 @Composable
-private fun StatusDot(width: Dp = 13.dp, height: Dp = 9.dp) {
+private fun StatusIcon(width: Dp = 13.dp, height: Dp = 9.dp) {
 	Box(
 		modifier = Modifier
 			.size(width = width, height = height)
@@ -203,17 +205,64 @@ private fun StatusDot(width: Dp = 13.dp, height: Dp = 9.dp) {
 }
 
 @Composable
-private fun SquareIconPlaceholder() {
+private fun UserIcon() {
 	Box(
 		modifier = Modifier
 			.size(26.dp)
 			.clip(RoundedCornerShape(10.dp))
 			.background(Color(0xFFF8F8F8))
-	)
+	) {
+		Image(
+			painter = painterResource(Res.drawable.ic_user),
+			contentDescription = "User",
+			modifier = Modifier
+				.size(15.dp)
+				.align(Alignment.Center),
+			contentScale = ContentScale.Fit
+		)
+	}
 }
 
 @Composable
-private fun SearchFieldPlaceholder() {
+private fun NotificationIcon() {
+	Box(
+		modifier = Modifier
+			.size(26.dp)
+			.clip(RoundedCornerShape(10.dp))
+			.background(Color(0xFFF8F8F8))
+	) {
+		Image(
+			painter = painterResource(Res.drawable.ic_note),
+			contentDescription = "Notification",
+			modifier = Modifier
+				.size(15.dp)
+				.align(Alignment.Center),
+			contentScale = ContentScale.Fit
+		)
+	}
+}
+
+@Composable
+private fun CartIcon() {
+	Box(
+		modifier = Modifier
+			.size(26.dp)
+			.clip(RoundedCornerShape(10.dp))
+			.background(Color(0xFFF8F8F8))
+	) {
+		Image(
+			painter = painterResource(Res.drawable.ic_favorite),
+			contentDescription = "Cart",
+			modifier = Modifier
+				.size(15.dp)
+				.align(Alignment.Center),
+			contentScale = ContentScale.Fit
+		)
+	}
+}
+
+@Composable
+private fun SearchField() {
 	Row(
 		modifier = Modifier
 			.clip(RoundedCornerShape(30.dp))
@@ -228,11 +277,10 @@ private fun SearchFieldPlaceholder() {
 			color = Color(0xFF676767)
 		)
 		Spacer(Modifier.weight(1f))
-		Box(
-			modifier = Modifier
-				.size(20.dp)
-				.clip(CircleShape)
-				.background(Color(0xFFE95322))
+		Image(
+			painter = painterResource(Res.drawable.ic_search),
+			contentDescription = "Search Icon",
+			modifier = Modifier.size(20.dp)
 		)
 	}
 }
@@ -248,43 +296,7 @@ private fun DividerLine() {
 }
 
 @Composable
-private fun BestSellerCardPlaceholder() {
-	Column(horizontalAlignment = Alignment.CenterHorizontally) {
-		Box(
-			modifier = Modifier
-				.size(width = 72.dp, height = 108.dp)
-				.clip(RoundedCornerShape(20.dp))
-				.background(Color(0xFFF3E9B5))
-		)
-		Spacer(Modifier.height(6.dp))
-		Row(
-			verticalAlignment = Alignment.CenterVertically
-		) {
-			Box(
-				modifier = Modifier
-					.clip(RoundedCornerShape(30.dp))
-					.background(Color.White)
-					.padding(horizontal = 8.dp, vertical = 2.dp)
-			) {
-				Text(
-					text = "5.0",
-					fontSize = 12.sp,
-					color = Color(0xFF391713)
-				)
-			}
-			Spacer(Modifier.width(6.dp))
-			Box(
-				modifier = Modifier
-					.size(14.dp)
-					.clip(CircleShape)
-					.background(Color(0xFFF8F8F8))
-			)
-		}
-	}
-}
-
-@Composable
-private fun BestSellerImage(image: DrawableResource) {
+private fun BestSellerItem(image: DrawableResource) {
 	Column(horizontalAlignment = Alignment.CenterHorizontally) {
 		Image(
 			painter = painterResource(image),
@@ -311,51 +323,17 @@ private fun BestSellerImage(image: DrawableResource) {
 				)
 			}
 			Spacer(Modifier.width(6.dp))
-			Box(
-				modifier = Modifier
-					.size(14.dp)
-					.clip(CircleShape)
-					.background(Color(0xFFF8F8F8))
+			Image(
+				painter = painterResource(Res.drawable.ic_favorite),
+				contentDescription = "Favorite",
+				modifier = Modifier.size(14.dp)
 			)
 		}
 	}
 }
 
 @Composable
-private fun RecommendCardPlaceholder() {
-	Box(
-		modifier = Modifier
-			.size(width = 159.dp, height = 140.dp)
-			.clip(RoundedCornerShape(20.dp))
-			.background(Color(0xFFECECEC))
-	) {
-		Box(
-			modifier = Modifier
-				.align(Alignment.TopStart)
-				.offset(x = 12.dp, y = 10.dp)
-				.clip(RoundedCornerShape(30.dp))
-				.background(Color.White)
-				.padding(horizontal = 8.dp, vertical = 2.dp)
-		) {
-			Text(
-				text = "5.0",
-				fontSize = 12.sp,
-				color = Color(0xFF391713)
-			)
-		}
-		Box(
-			modifier = Modifier
-				.align(Alignment.TopStart)
-				.offset(x = 38.dp, y = 10.dp)
-				.size(14.dp)
-				.clip(CircleShape)
-				.background(Color(0xFFF8F8F8))
-		)
-	}
-}
-
-@Composable
-private fun RecommendCardImage(image: DrawableResource) {
+private fun RecommendCard(image: DrawableResource) {
 	Box(
 		modifier = Modifier
 			.size(width = 159.dp, height = 140.dp)
@@ -364,7 +342,7 @@ private fun RecommendCardImage(image: DrawableResource) {
 		Image(
 			painter = painterResource(image),
 			contentDescription = null,
-			modifier = Modifier.matchParentSize(),
+			modifier = Modifier.fillMaxSize(),
 			contentScale = ContentScale.Crop
 		)
 		Box(
@@ -381,72 +359,25 @@ private fun RecommendCardImage(image: DrawableResource) {
 				color = Color(0xFF391713)
 			)
 		}
-		Box(
+		Image(
+			painter = painterResource(Res.drawable.ic_favorite),
+			contentDescription = "Favorite",
 			modifier = Modifier
 				.align(Alignment.TopStart)
 				.offset(x = 38.dp, y = 10.dp)
 				.size(14.dp)
-				.clip(CircleShape)
-				.background(Color(0xFFF8F8F8))
 		)
 	}
 }
 
 @Composable
-private fun PromoCardPlaceholder() {
+private fun PromoCard(image: DrawableResource) {
 	Box(
 		modifier = Modifier
 			.fillMaxWidth()
 			.height(128.dp)
 			.clip(RoundedCornerShape(20.dp))
-			.background(Color(0xFFFE4A0C).copy(alpha = 0.15f))
-	) {
-		// Decorative circles to mimic strokes
-		Box(
-			modifier = Modifier
-				.size(55.dp)
-				.offset(x = 106.dp, y = (-37).dp)
-				.clip(CircleShape)
-				.border(2.dp, Color(0xFFF5CB58), CircleShape)
-		)
-		Box(
-			modifier = Modifier
-				.size(46.dp)
-				.offset(x = (-14).dp, y = 105.dp)
-				.clip(CircleShape)
-				.border(2.dp, Color(0xFFF5CB58), CircleShape)
-		)
-		Column(
-			modifier = Modifier
-				.align(Alignment.CenterStart)
-				.padding(start = 14.dp),
-			horizontalAlignment = Alignment.CenterHorizontally
-		) {
-			Text(
-				text = "Experience our delicious new dish",
-				fontSize = 16.sp,
-				color = Color(0xFFF8F8F8),
-				textAlign = TextAlign.Center
-			)
-			Text(
-				text = "30% OFF",
-				fontSize = 32.sp,
-				fontWeight = FontWeight.Bold,
-				color = Color(0xFFF8F8F8),
-				textAlign = TextAlign.Center
-			)
-		}
-	}
-}
-
-@Composable
-private fun PromoCardWithImage(image: DrawableResource) {
-	Box(
-		modifier = Modifier
-			.fillMaxWidth()
-			.height(128.dp)
-			.clip(RoundedCornerShape(20.dp))
-			.background(Color.Transparent)
+			.background(Color(0xFFE95322))
 	) {
 		// Right side promo image
 		Image(
@@ -458,106 +389,146 @@ private fun PromoCardWithImage(image: DrawableResource) {
 				.clip(RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp)),
 			contentScale = ContentScale.Crop
 		)
-		// Decorative circles to mimic strokes
-		Box(
+
+		// Decorative circles
+		Image(
+			painter = painterResource(Res.drawable.ic_circle_decoration),
+			contentDescription = null,
 			modifier = Modifier
 				.size(55.dp)
 				.offset(x = 106.dp, y = (-37).dp)
-				.clip(CircleShape)
-				.border(2.dp, Color(0xFFF5CB58), CircleShape)
+				.align(Alignment.TopStart)
 		)
-		Box(
+		Image(
+			painter = painterResource(Res.drawable.ic_circle_decoration),
+			contentDescription = null,
 			modifier = Modifier
 				.size(46.dp)
 				.offset(x = (-14).dp, y = 105.dp)
-				.clip(CircleShape)
-				.border(2.dp, Color(0xFFF5CB58), CircleShape)
+				.align(Alignment.TopStart)
 		)
+
 		Column(
 			modifier = Modifier
 				.align(Alignment.CenterStart)
 				.padding(start = 14.dp),
-			horizontalAlignment = Alignment.CenterHorizontally
+			horizontalAlignment = Alignment.Start
 		) {
 			Text(
 				text = "Experience our delicious new dish",
 				fontSize = 16.sp,
 				color = Color(0xFFF8F8F8),
-				textAlign = TextAlign.Center
+				textAlign = TextAlign.Start
 			)
 			Text(
 				text = "30% OFF",
 				fontSize = 32.sp,
 				fontWeight = FontWeight.Bold,
 				color = Color(0xFFF8F8F8),
-				textAlign = TextAlign.Center
+				textAlign = TextAlign.Start
 			)
 		}
 	}
 }
 
 @Composable
-private fun FooterDot() {
-	Box(
-		modifier = Modifier
-			.size(width = 16.dp, height = 6.dp)
-			.clip(RoundedCornerShape(12.dp))
-			.background(Color(0xFFF3E9B5))
+private fun BottomNavIcon(icon: DrawableResource) {
+	Image(
+		painter = painterResource(icon),
+		contentDescription = null,
+		modifier = Modifier.size(24.dp)
 	)
 }
 
 @Composable
-private fun NotificationsComponent53(modifier: Modifier = Modifier) {
-	// Mimic the slide "Menu Slide / Notifications" (Component 53) layout
-	Column(
-		modifier = modifier
-			.width(330.dp)
-	) {
-		Text(
-			text = "Notifications",
-			fontSize = 24.sp,
-			fontWeight = FontWeight.Bold,
-			color = Color(0xFFF8F8F8)
+private fun NotificationPanel(modifier: Modifier = Modifier) {
+	Box(modifier = modifier) {
+		// Background shape for the notification panel
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(
+					color = Color(0xFFE95322),
+					shape = RoundedCornerShape(
+						topStart = 20.dp,
+						bottomStart = 20.dp
+					)
+				)
 		)
 
-		Spacer(Modifier.height(20.dp))
+		// Notification content
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.padding(
+					top = 87.dp, // Position from top to match design
+					start = 24.dp,
+					end = 24.dp
+				)
+		) {
+			Row(
+				modifier = Modifier
+					.fillMaxWidth(),   // 让 Row 高度贴合内容，方便父容器垂直居中
+				horizontalArrangement = Arrangement.Center,   // 水平居中对齐
+			) {
+				// Notification trigger icon (5th icon)
+				Image(
+					painter = painterResource(Res.drawable.ic_notification_trigger),
+					contentDescription = "Notification Trigger",
+					modifier = Modifier.size(22.dp)
 
-		NotificationRow(
-			iconBg = Color(0xFFF8F8F8),
-			message = "We have added\na product you might like.",
-			date = "03/12/24",
-			time = "8:00"
-		)
-		DividerLine()
+				)
+				Spacer(Modifier.width(8.dp))
+				// Title
+				Text(
+					text = "Notifications",
+					fontSize = 24.sp,
+					fontWeight = FontWeight.Bold,
+					color = Color(0xFFF8F8F8),
+					modifier = Modifier.padding(bottom = 20.dp)
+				)
+			}
 
-		NotificationRow(
-			iconBg = Color(0xFFF8F8F8),
-			message = "One of your favorite is on promotion.",
-			date = "03/12/24",
-			time = "12:00"
-		)
-		DividerLine()
+			DividerLine()
 
-		NotificationRow(
-			iconBg = Color(0xFFF8F8F8),
-			message = "Your order has been delivered",
-			date = "29/11/24",
-			time = "16:00"
-		)
-		DividerLine()
+			// Notification items with correct Figma icons
+			NotificationItem(
+				icon = Res.drawable.ic_cookware, // Shopping cart icon for product added notification
+				message = "We have added\na product you might like.",
+				date = "03/12/24",
+				time = "8:00"
+			)
+			DividerLine()
 
-		NotificationRow(
-			iconBg = Color(0xFFF8F8F8),
-			message = "The delivery is\non his way",
-			date = "29/11/24",
-			time = "15:00"
-		)
+			NotificationItem(
+				icon = Res.drawable.ic_heart, // Cookware icon for promotion notification
+				message = "One of your favorite is on promotion.",
+				date = "03/12/24",
+				time = "12:00"
+			)
+			DividerLine()
+
+			NotificationItem(
+				icon = Res.drawable.ic_notification, // Heart icon for delivered order
+				message = "Your order has been delivered",
+				date = "29/11/24",
+				time = "16:00"
+			)
+			DividerLine()
+
+			NotificationItem(
+				icon = Res.drawable.ic_delivery_boy, // Delivery boy icon for delivery status
+				message = "The delivery is\non his way",
+				date = "29/11/24",
+				time = "15:00"
+			)
+		}
 	}
 }
 
 @Composable
-private fun NotificationRow(
-	iconBg: Color,
+private fun NotificationItem(
+	icon: DrawableResource,
 	message: String,
 	date: String,
 	time: String
@@ -572,8 +543,15 @@ private fun NotificationRow(
 			modifier = Modifier
 				.size(40.dp)
 				.clip(RoundedCornerShape(13.dp))
-				.background(iconBg)
-		)
+				.background(Color(0xFFF8F8F8)),
+			contentAlignment = Alignment.Center
+		) {
+			Image(
+				painter = painterResource(icon),
+				contentDescription = null,
+				modifier = Modifier.size(20.dp)
+			)
+		}
 		Spacer(Modifier.width(16.dp))
 		Text(
 			text = message,
