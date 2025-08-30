@@ -82,13 +82,13 @@ private fun NotificationScreen() {
 			// Top action icons and search
 			Row(
 				modifier = Modifier.fillMaxWidth(),
-				horizontalArrangement = Arrangement.SpaceBetween,
+				horizontalArrangement = Arrangement.End,
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-					UserIcon()
-					NotificationIcon()
 					CartIcon()
+					NotificationIcon()
+					UserIcon()
 				}
 				SearchField()
 			}
@@ -133,13 +133,14 @@ private fun NotificationScreen() {
 
 			Spacer(Modifier.height(8.dp))
 			Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-				BestSellerItem(Res.drawable.food_pizza)
-				BestSellerItem(Res.drawable.food_burger)
-				BestSellerItem(Res.drawable.food_pasta)
+				BestSellerItem(Res.drawable.food_fish)
+				BestSellerItem(Res.drawable.food_chicken)
+				BestSellerItem(Res.drawable.food_lasagna)
 				BestSellerItem(Res.drawable.food_dessert)
 			}
 
 			Spacer(Modifier.height(16.dp))
+			PromoCard(Res.drawable.food_pizza)
 			DividerLine()
 
 			Spacer(Modifier.height(16.dp))
@@ -152,12 +153,11 @@ private fun NotificationScreen() {
 
 			Spacer(Modifier.height(12.dp))
 			Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-				RecommendCard(Res.drawable.food_pizza)
 				RecommendCard(Res.drawable.food_burger)
+				RecommendCard(Res.drawable.food_roll)
 			}
 
 			Spacer(Modifier.height(16.dp))
-			PromoCard(Res.drawable.food_pizza)
 		}
 
 		// Bottom navigation
@@ -177,10 +177,10 @@ private fun NotificationScreen() {
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				BottomNavIcon(Res.drawable.ic_nav_home)
-				BottomNavIcon(Res.drawable.ic_nav_heart)
 				BottomNavIcon(Res.drawable.ic_nav_user)
-				BottomNavIcon(Res.drawable.ic_nav_cart)
+				BottomNavIcon(Res.drawable.ic_nav_heart)
 				BottomNavIcon(Res.drawable.ic_nav_settings)
+				BottomNavIcon(Res.drawable.ic_nav_cart)
 			}
 		}
 
@@ -232,7 +232,7 @@ private fun NotificationIcon() {
 			.background(Color(0xFFF8F8F8))
 	) {
 		Image(
-			painter = painterResource(Res.drawable.ic_notification),
+			painter = painterResource(Res.drawable.ic_note),
 			contentDescription = "Notification",
 			modifier = Modifier
 				.size(15.dp)
@@ -377,7 +377,7 @@ private fun PromoCard(image: DrawableResource) {
 			.fillMaxWidth()
 			.height(128.dp)
 			.clip(RoundedCornerShape(20.dp))
-			.background(Color(0xFFFE4A0C).copy(alpha = 0.15f))
+			.background(Color(0xFFE95322))
 	) {
 		// Right side promo image
 		Image(
@@ -448,7 +448,7 @@ private fun NotificationPanel(modifier: Modifier = Modifier) {
 			modifier = Modifier
 				.fillMaxSize()
 				.background(
-					color = Color.Black.copy(alpha = 0.7f),
+					color = Color(0xFFE95322),
 					shape = RoundedCornerShape(
 						topStart = 20.dp,
 						bottomStart = 20.dp
@@ -466,13 +466,19 @@ private fun NotificationPanel(modifier: Modifier = Modifier) {
 					end = 24.dp
 				)
 		) {
-			Row() {
+			Row(
+				modifier = Modifier
+					.fillMaxWidth(),   // 让 Row 高度贴合内容，方便父容器垂直居中
+				horizontalArrangement = Arrangement.Center,   // 水平居中对齐
+			) {
 				// Notification trigger icon (5th icon)
 				Image(
 					painter = painterResource(Res.drawable.ic_notification_trigger),
 					contentDescription = "Notification Trigger",
 					modifier = Modifier.size(22.dp)
+
 				)
+				Spacer(Modifier.width(8.dp))
 				// Title
 				Text(
 					text = "Notifications",
@@ -487,7 +493,7 @@ private fun NotificationPanel(modifier: Modifier = Modifier) {
 
 			// Notification items with correct Figma icons
 			NotificationItem(
-				icon = Res.drawable.ic_notification, // Shopping cart icon for product added notification
+				icon = Res.drawable.ic_cookware, // Shopping cart icon for product added notification
 				message = "We have added\na product you might like.",
 				date = "03/12/24",
 				time = "8:00"
@@ -495,7 +501,7 @@ private fun NotificationPanel(modifier: Modifier = Modifier) {
 			DividerLine()
 
 			NotificationItem(
-				icon = Res.drawable.ic_cookware, // Cookware icon for promotion notification
+				icon = Res.drawable.ic_heart, // Cookware icon for promotion notification
 				message = "One of your favorite is on promotion.",
 				date = "03/12/24",
 				time = "12:00"
@@ -503,7 +509,7 @@ private fun NotificationPanel(modifier: Modifier = Modifier) {
 			DividerLine()
 
 			NotificationItem(
-				icon = Res.drawable.ic_heart, // Heart icon for delivered order
+				icon = Res.drawable.ic_notification, // Heart icon for delivered order
 				message = "Your order has been delivered",
 				date = "29/11/24",
 				time = "16:00"
